@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "home#index"
+  root "users#new"
   resource :users, only: %i(edit new create destroy)
 
   namespace :api do

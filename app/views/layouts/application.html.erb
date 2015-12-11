@@ -2,15 +2,16 @@
 <html>
 <head>
   <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag :application, media: "all" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <div id="header">
-    <% if signed_in? -%>
-      <%= button_to t(".sign_out"), sign_out_path, method: :delete %>
-    <% else -%>
-      <%= link_to t(".sign_in"), sign_in_path %>
-    <% end -%>
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Keelhaul</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni modi doloremque excepturi laudantium maxime explicabo cumque deleniti voluptate.</p>
+    </div>
+    <div class="gradient"></div>
   </div>
 
   <div id="flash">
@@ -19,6 +20,8 @@
     <% end %>
   </div>
 
-  <%= yield %>
+  <div class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

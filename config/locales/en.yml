@@ -1,4 +1,10 @@
 en:
+  users:
+    edit:
+      sign_out: "Sign out"
+  home:
+    index:
+      title: "Sign up"
   date:
     formats:
       default:

@@ -10,6 +10,8 @@ class UsersController < Clearance::UsersController
   end
 
   def redirect_signed_in_users
-    url_after_create
+    if signed_in?
+      redirect_to url_after_create
+    end
   end
 end

@@ -1,5 +1,5 @@
 body {
-  color: $base-font-color;
+  color: $base-font-color-on-dark;
   font-family: $base-font-family;
   font-feature-settings: "kern", "liga", "pnum";
   font-size: $base-font-size;
@@ -16,6 +16,17 @@ h6 {
   font-size: $base-font-size;
   line-height: $heading-line-height;
   margin: 0 0 $small-spacing;
+}
+
+h2 {
+  font-family: $base-font-family-serif;
+  font-size: 1.2em;
+  margin-bottom: 1.7em;
+}
+
+h3 {
+  font-size: 1.3em;
+  margin-bottom: 2em;
 }
 
 p {

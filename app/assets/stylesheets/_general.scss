@@ -1,0 +1,75 @@
+body {
+  background: $base-background-color;
+  min-width: 320px;
+}
+
+input[type="submit"] {
+  width: 100%;
+}
+
+.hero {
+  $large-screen: 50em !default;
+  align-items: center;
+  background: image_url("sea.png");
+  background-position: right;
+  background-size: none;
+  display: flex;
+  justify-content: center;
+  min-height: 25em;
+  padding: 5em 0 8em;
+  position: relative;
+
+  @include media($large-screen) {
+    background-size: cover;
+
+    h1 {
+      font-size: 5em;
+      margin-bottom: 0.1em;
+    }
+  }
+
+  h1 {
+    font-family: $base-font-family-serif;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  .hero-content {
+    max-width: 24em;
+    text-align: center;
+  }
+
+  .hero-logo {
+    margin: 0 auto 1em;
+  }
+
+  .gradient {
+    @include background(linear-gradient(transparent, $base-background-color));
+    bottom: 0;
+    height: 8em;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.container {
+  margin: auto;
+  margin-top: -6em;
+  max-width: 30em;
+  padding: 1em;
+  position: relative;
+}
+
+.box {
+  background: $white;
+  border-radius: $base-border-radius * 2;
+  color: $base-font-color-on-light;
+  padding: 1.8em;
+  text-align: center;
+}
+
+.other-links {
+  padding: 1em;
+  text-align: center;
+}

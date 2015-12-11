@@ -1,3 +1,5 @@
-<p>Welcome, <%= @user.email %></p>
-
-<p>API token: <%= @user.token %></p>
+<div class="box">
+  <p>Welcome, <%= @user.email %></p>
+  <h3>API token: <%= @user.token %></h3>
+  <%= button_to t(".sign_out"), sign_out_path, method: :delete %>
+</div>

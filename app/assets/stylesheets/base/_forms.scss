@@ -16,6 +16,7 @@ select {
 label {
   font-weight: 600;
   margin-bottom: $small-spacing / 2;
+  text-align: left;
 
   &.required::after {
     content: "*";
@@ -28,7 +29,7 @@ label {
 
 #{$all-text-inputs},
 select[multiple=multiple] {
-  background-color: $base-background-color;
+  background-color: $white;
   border: $base-border;
   border-radius: $base-border-radius;
   box-shadow: $form-box-shadow;
@@ -87,4 +88,8 @@ select {
   margin-bottom: $base-spacing;
   max-width: 100%;
   width: auto;
+}
+
+.password-field {
+  margin-bottom: 2em;
 }

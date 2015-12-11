@@ -1,6 +1,7 @@
 // Typography
 $base-font-family: $helvetica;
 $heading-font-family: $base-font-family;
+$base-font-family-serif: georgia;
 
 // Font Sizes
 $base-font-size: 1em;
@@ -20,17 +21,19 @@ $blue: #477dca;
 $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #ddd;
+$white: #fdffe7;
 
 // Font Colors
-$base-font-color: $dark-gray;
-$action-color: $blue;
+$base-font-color-on-dark: $white;
+$base-font-color-on-light: $dark-gray;
+$action-color: #47bdca;
 
 // Border
 $base-border-color: $light-gray;
 $base-border: 1px solid $base-border-color;
 
 // Background Colors
-$base-background-color: #fff;
+$base-background-color: #001123;
 $secondary-background-color: tint($base-border-color, 75%);
 
 // Forms
