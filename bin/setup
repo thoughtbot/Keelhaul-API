@@ -22,5 +22,6 @@ bin/rake dev:prime
 mkdir -p .git/safe
 
 # Only if this isn't CI
-# if [ -z "$CI" ]; then
-# fi
+if [ -z "$CI" ]; then
+  git remote add staging git@heroku.com:keelhaul-staging.git
+fi

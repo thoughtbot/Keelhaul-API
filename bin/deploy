@@ -1,0 +1,23 @@
+#!/bin/sh
+
+command -v heroku > /dev/null 2>&1 || {
+  echo >&2 "Heroku toolbelt is not installed. Try: brew install heroku-toolbelt"
+  exit 1
+}
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  echo >&2 "This doesn't appear to be a git repo. Try: git init"
+  exit 1
+fi;
+
+remote=${1-staging}
+branch=${2-$(git rev-parse --abbrev-ref HEAD)}
+
+if [ -z "$FORCE" ]; then
+  git push "$remote" "$branch:master"
+else
+  git push "$remote" -f "$branch:master"
+fi
+
+heroku run rake db:migrate --remote "$remote"
+heroku restart --remote "$remote"
