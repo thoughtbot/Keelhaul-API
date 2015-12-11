@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   include Clearance::User
 
+  has_many :receipts
+
   before_save :generate_token
 
   private

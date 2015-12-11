@@ -13,7 +13,7 @@ feature "A user signs up" do
   end
 
   scenario "gets redirected if already signed in" do
-    user = create(:user)
+    user = create(:user, email: "user@example.com")
     sign_in(user)
 
     visit root_path

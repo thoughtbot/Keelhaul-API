@@ -10,6 +10,10 @@ module Api
           User.find_by(token: token)
         end
       end
+
+      def current_user
+        @_current_user ||= authenticate
+      end
     end
   end
 end

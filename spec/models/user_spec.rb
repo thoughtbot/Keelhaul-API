@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe User do
+  it { is_expected.to have_many(:receipts) }
+
   context "generating tokens" do
     it "generates a token for created users" do
       user = build(:user)

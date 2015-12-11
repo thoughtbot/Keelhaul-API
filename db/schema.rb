@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210162232) do
+ActiveRecord::Schema.define(version: 20151215202900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 20151210162232) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "receipts", force: :cascade do |t|
+    t.integer  "user_id",                 null: false
+    t.string   "token",      default: "", null: false
+    t.string   "data",       default: "", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "receipts", ["user_id"], name: "index_receipts_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                          null: false
     t.datetime "created_at"
@@ -45,4 +55,5 @@ ActiveRecord::Schema.define(version: 20151210162232) do
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
+  add_foreign_key "receipts", "users"
 end
