@@ -1,4 +1,5 @@
 require "faraday_middleware"
+require "app/models/response"
 
 class ReceiptValidator
   def initialize(payload:, user:, sandbox: "0")
@@ -15,11 +16,11 @@ class ReceiptValidator
       validation_object_for(response.body)
     else
       if mismatching_environment?
-        BadRequestError.new
+        Response::BadRequestError.new
       elsif token_matches?
-        SuccessfulRequest.new
+        Response::SuccessfulRequest.new
       else
-        UnauthenticatedError.new
+        Response::UnauthenticatedError.new
       end
     end
   end
@@ -73,41 +74,11 @@ class ReceiptValidator
   def validation_object_for(json)
     case json["status"]
     when 0
-      SuccessfulRequest.new
+      Response::SuccessfulRequest.new
     when 21_003
-      UnauthenticatedError.new
+      Response::UnauthenticatedError.new
     else
-      BadRequestError.new
-    end
-  end
-
-  class SuccessfulRequest
-    def http_status
-      200
-    end
-
-    def valid?
-      true
-    end
-  end
-
-  class UnauthenticatedError
-    def http_status
-      403
-    end
-
-    def valid?
-      false
-    end
-  end
-
-  class BadRequestError
-    def http_status
-      400
-    end
-
-    def valid?
-      false
+      Response::BadRequestError.new
     end
   end
 end

@@ -1,3 +1,5 @@
+$: << File.expand_path("../..", __FILE__)
+
 if ENV.fetch("COVERAGE", false)
   require "simplecov"
   SimpleCov.start "rails"
