@@ -1,7 +1,7 @@
 require "faraday_middleware"
 
 class ReceiptValidator
-  def initialize(payload:, user:, sandbox: 0)
+  def initialize(payload:, user:, sandbox: "0")
     @payload = payload
     @user = user
     @sandbox = sandbox
@@ -14,7 +14,9 @@ class ReceiptValidator
 
       validation_object_for(response.body)
     else
-      if token_matches?
+      if mismatching_environment?
+        BadRequestError.new
+      elsif token_matches?
         SuccessfulRequest.new
       else
         UnauthenticatedError.new
@@ -48,6 +50,10 @@ class ReceiptValidator
     !matching_receipt
   end
 
+  def mismatching_environment?
+    matching_receipt.environment != current_environment
+  end
+
   def token_matches?
     matching_receipt.token == payload[:token]
   end
@@ -58,6 +64,10 @@ class ReceiptValidator
 
   def create_receipt
     user.receipts.create(payload)
+  end
+
+  def current_environment
+    AppleReceipt.environment(sandbox: sandbox)
   end
 
   def validation_object_for(json)

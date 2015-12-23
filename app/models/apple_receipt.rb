@@ -9,4 +9,12 @@ class AppleReceipt
       RECEIPT_URL
     end
   end
+
+  def self.environment(params = {})
+    if endpoint_url(params) == SANDBOX_URL
+      "sandbox"
+    else
+      "production"
+    end
+  end
 end

@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :receipt do
-    user
+    environment "production"
     token "some-token"
+    user
   end
 
   factory :user do

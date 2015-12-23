@@ -65,7 +65,11 @@ describe ReceiptValidator do
       context "when the token matches" do
         it "is a success" do
           user = stubbed_user
-          receipt = double("Receipt", token: "abc123")
+          receipt = double(
+            "Receipt",
+            token: "abc123",
+            environment: "production",
+          )
           payload = {
             data: "data",
             token: "abc123",
@@ -83,7 +87,11 @@ describe ReceiptValidator do
       context "when the token does not match" do
         it "is a bad request" do
           user = stubbed_user
-          receipt = double("Receipt", token: "abc123")
+          receipt = double(
+            "Receipt",
+            token: "abc123",
+            environment: "production",
+          )
           payload = {
             data: "data",
             token: "321cba",

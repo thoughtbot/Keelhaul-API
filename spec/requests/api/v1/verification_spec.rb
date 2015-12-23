@@ -123,6 +123,23 @@ describe "Verification of the Apple receipt" do
     end
   end
 
+  context "given an already validated sandbox receipt" do
+    it "is a bad request when it is validated against production" do
+      receipt = create(:receipt, environment: "sandbox")
+      user = receipt.user
+      payload = {
+        receipt: {
+          data: receipt.data,
+          token: receipt.token,
+        },
+      }
+
+      auth_post api_v1_verifications_path, payload, user.token
+
+      expect(response).to be_bad_request
+    end
+  end
+
   it "respects sandbox" do
     with_fake_apple_receipt(url: "https://sandbox.example.com") do
       user = create(:user)
