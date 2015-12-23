@@ -72,13 +72,6 @@ class ReceiptValidator
   end
 
   def validation_object_for(json)
-    case json["status"]
-    when 0
-      Response::SuccessfulRequest.new
-    when 21_003
-      Response::UnauthenticatedError.new
-    else
-      Response::BadRequestError.new
-    end
+    Response.for(json)
   end
 end
