@@ -1,0 +1,24 @@
+{
+   "environment" : "Production",
+   "status" : 0,
+   "receipt" : {
+      "original_purchase_date_pst" : "2014-01-01 01:01:01 Europe/Stockholm",
+      "receipt_creation_date_ms" : "1000000000001",
+      "adam_id" : 100000001,
+      "receipt_creation_date_pst" : "2014-01-01 01:01:01 Europe/Stockholm",
+      "request_date_pst" : "2014-01-01 01:01:01 Europe/Stockholm",
+      "original_application_version" : "1.0.0",
+      "request_date_ms" : "1450881962563",
+      "original_purchase_date" : "2014-01-01 01:01:01 Europe/Stockholm",
+      "bundle_id" : "com.thoughtbot.keelhaul",
+      "receipt_type" : "Production",
+      "in_app" : [],
+      "download_id" : 10000000000001,
+      "application_version" : "1.0.0",
+      "version_external_identifier" : 100000001,
+      "app_item_id" : 100000001,
+      "receipt_creation_date" : "2014-01-01 01:01:01 Etc/Gmt",
+      "request_date" : "2014-01-01 01:01:01 Etc/Gmt",
+      "original_purchase_date_ms" : "1000000000001"
+   }
+}

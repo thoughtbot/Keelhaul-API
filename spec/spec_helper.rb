@@ -1,5 +1,7 @@
 $: << File.expand_path("../..", __FILE__)
 
+ENV["APPLE_SANDBOX_ENDPOINT"] = "https://sandbox.example.com"
+
 if ENV.fetch("COVERAGE", false)
   require "simplecov"
   SimpleCov.start "rails"

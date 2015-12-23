@@ -2,7 +2,9 @@ module Response
   def self.for(json)
     case json["status"]
     when 0
-      SuccessfulRequest.new
+      metadata = json.fetch("receipt").
+        slice(*Receipt::APPLE_METADATA_KEY_WHITELIST)
+      SuccessfulRequest.new(metadata)
     when 21_003
       UnauthenticatedError.new
     else
@@ -11,12 +13,21 @@ module Response
   end
 
   class SuccessfulRequest
+    def initialize(json)
+      @json = json
+    end
+
     def http_status
       200
     end
 
-    def valid?
-      true
+    def on_success
+      yield
+      self
+    end
+
+    def as_json(*)
+      @json
     end
   end
 
@@ -25,8 +36,8 @@ module Response
       403
     end
 
-    def valid?
-      false
+    def on_success
+      self
     end
   end
 
@@ -35,8 +46,8 @@ module Response
       400
     end
 
-    def valid?
-      false
+    def on_success
+      self
     end
   end
 end

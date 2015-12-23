@@ -12,7 +12,7 @@ describe ReceiptValidator do
             validation = validator.validate
 
             expect(validation.http_status).to eq 200
-            expect(validation).to be_valid
+            expect(validation).to be_a Response::SuccessfulRequest
           end
         end
 
@@ -27,7 +27,7 @@ describe ReceiptValidator do
 
             validator.validate
 
-            expect(user.receipts).to have_received(:create).with(payload)
+            expect(user.receipts).to have_received(:create_from_apple_payload)
           end
         end
       end
@@ -41,7 +41,7 @@ describe ReceiptValidator do
             validation = validator.validate
 
             expect(validation.http_status).to eq 403
-            expect(validation).not_to be_valid
+            expect(validation).to be_a Response::UnauthenticatedError
           end
         end
       end
@@ -55,7 +55,7 @@ describe ReceiptValidator do
             validation = validator.validate
 
             expect(validation.http_status).to eq 400
-            expect(validation).not_to be_valid
+            expect(validation).to be_a Response::BadRequestError
           end
         end
       end
@@ -69,6 +69,7 @@ describe ReceiptValidator do
             "Receipt",
             token: "abc123",
             environment: "production",
+            metadata: {},
           )
           payload = {
             data: "data",
@@ -79,13 +80,13 @@ describe ReceiptValidator do
 
           validation = validator.validate
 
-          expect(validation).to be_valid
+          expect(validation).to be_a Response::SuccessfulRequest
           expect(user.receipts).to have_received(:find_by).with(data: "data")
         end
       end
 
       context "when the token does not match" do
-        it "is a bad request" do
+        it "is an unauthenticated request" do
           user = stubbed_user
           receipt = double(
             "Receipt",
@@ -101,7 +102,7 @@ describe ReceiptValidator do
 
           validation = validator.validate
 
-          expect(validation).not_to be_valid
+          expect(validation).to be_a Response::UnauthenticatedError
         end
       end
     end
@@ -109,7 +110,11 @@ describe ReceiptValidator do
 
   def stubbed_user(options = {})
     default_options = {
-      receipts: double("ReceiptsForUser", create: nil, find_by: nil),
+      receipts: double(
+        "ReceiptsForUser",
+        create_from_apple_payload: nil,
+        find_by: nil,
+      ),
     }
 
     double("User", default_options.merge(options))

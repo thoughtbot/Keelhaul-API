@@ -1,5 +1,4 @@
 require "faraday_middleware"
-require "app/models/response"
 
 class ReceiptValidator
   def initialize(payload:, user:, sandbox: "0")
@@ -11,17 +10,14 @@ class ReceiptValidator
   def validate
     if new_receipt?
       response = post
-      create_receipt
-
-      validation_object_for(response.body)
+      validation = Response.for(response.body)
+      validation.on_success { create_receipt(response.body) }
+    elsif mismatching_environment?
+      Response::BadRequestError.new
+    elsif token_matches?
+      Response::SuccessfulRequest.new(matching_receipt.metadata)
     else
-      if mismatching_environment?
-        Response::BadRequestError.new
-      elsif token_matches?
-        Response::SuccessfulRequest.new
-      else
-        Response::UnauthenticatedError.new
-      end
+      Response::UnauthenticatedError.new
     end
   end
 
@@ -32,7 +28,7 @@ class ReceiptValidator
   def post
     connection.post do |request|
       request.headers["Content-Type"] = "application/json"
-      request.body = payload[:data]
+      request.body = JSON.dump("receipt-data" => payload[:data])
     end
   end
 
@@ -60,18 +56,16 @@ class ReceiptValidator
   end
 
   def matching_receipt
-    @_matching_receipt ||= user.receipts.find_by(data: payload[:data])
+    @_matching_receipt ||= user.receipts.find_by(data: payload[:data].to_s)
   end
 
-  def create_receipt
-    user.receipts.create(payload)
+  def create_receipt(json)
+    user.receipts.create_from_apple_payload(
+      json.merge("data" => payload[:data], "token" => payload[:token]),
+    )
   end
 
   def current_environment
     AppleReceipt.environment(sandbox: sandbox)
-  end
-
-  def validation_object_for(json)
-    Response.for(json)
   end
 end

@@ -5,13 +5,16 @@ describe "Verification of the Apple receipt" do
     it "is a success" do
       with_fake_apple_receipt do
         user = create(:user)
-        receipt_data = "some receipt"
+        receipt_data =
+          JSON.parse(fixture_for("receipt-response.json"))["receipt"]
+        expected_json =
+          receipt_data.slice(*Receipt::APPLE_METADATA_KEY_WHITELIST)
 
         auth_post(
           api_v1_verifications_path,
           {
             receipt: {
-              data: receipt_data,
+              data: "ABC",
               token: "unknown-token",
             },
           },
@@ -19,6 +22,8 @@ describe "Verification of the Apple receipt" do
         )
 
         expect(response).to be_success
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(expected_json)
       end
     end
   end
@@ -26,14 +31,13 @@ describe "Verification of the Apple receipt" do
   context "validating the same receipt, with the same API key, with the same token" do
     it "is a success, twice" do
       user = create(:user)
-      receipt_data = "some receipt"
 
       with_fake_apple_receipt do
         auth_post(
           api_v1_verifications_path,
           {
             receipt: {
-              data: receipt_data,
+              data: "ABC",
               token: "unknown-token",
             },
           },
@@ -47,7 +51,7 @@ describe "Verification of the Apple receipt" do
         api_v1_verifications_path,
         {
           receipt: {
-            data: receipt_data,
+            data: "ABC",
             token: "unknown-token",
           },
         },
@@ -65,7 +69,7 @@ describe "Verification of the Apple receipt" do
         :receipt,
         user: user,
         token: "known-token",
-        data: "some-receipt",
+        data: "ABC",
       )
       payload = {
         receipt: {
@@ -125,7 +129,11 @@ describe "Verification of the Apple receipt" do
 
   context "given an already validated sandbox receipt" do
     it "is a bad request when it is validated against production" do
-      receipt = create(:receipt, environment: "sandbox")
+      receipt = create(
+        :receipt,
+        environment: "sandbox",
+        data: "ABC",
+      )
       user = receipt.user
       payload = {
         receipt: {
@@ -143,13 +151,12 @@ describe "Verification of the Apple receipt" do
   it "respects sandbox" do
     with_fake_apple_receipt(url: "https://sandbox.example.com") do
       user = create(:user)
-      receipt_data = "some receipt"
 
       auth_post(
         api_v1_verifications_path + "?sandbox=1",
         {
           receipt: {
-            data: receipt_data,
+            data: "ABC",
             token: "unknown-token",
           },
         },

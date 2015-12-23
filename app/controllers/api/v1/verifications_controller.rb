@@ -2,7 +2,7 @@ module Api
   module V1
     class VerificationsController < BaseController
       def create
-        render nothing: true, status: validation.http_status
+        render json: validation, status: validation.http_status
       end
 
       private
@@ -15,12 +15,16 @@ module Api
         ReceiptValidator.new(
           payload: receipt_params,
           user: current_user,
-          sandbox: params[:sandbox] || 0,
+          sandbox: sandbox,
         )
       end
 
+      def sandbox
+        params[:sandbox] || "0"
+      end
+
       def receipt_params
-        params.require(:receipt).permit(:data, :token)
+        params.require(:receipt).permit!
       end
     end
   end

@@ -3,12 +3,18 @@ require "rails_helper"
 describe Receipt do
   it { is_expected.to belong_to(:user) }
 
-  describe ".for_payload" do
-    it "returns the receipts matching the given payload" do
-      receipt = create(:receipt, token: "abc")
-      _another_receipt = create(:receipt, token: "123")
+  describe ".create_from_apple_payload" do
+    it "massages the payload from Apple" do
+      user = create(:user)
+      payload = JSON.
+        parse(fixture_for("receipt-response.json")).
+        merge("data" => "data", "token" => "token")
 
-      expect(Receipt.for_payload(token: "abc")).to eq [receipt]
+      receipt = user.receipts.create_from_apple_payload(payload)
+
+      expected_payload = payload["receipt"].
+        slice(*Receipt::APPLE_METADATA_KEY_WHITELIST)
+      expect(receipt.metadata).to eq expected_payload
     end
   end
 end
