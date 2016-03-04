@@ -1,6 +1,8 @@
 body {
-  background: $base-background-color;
-  min-width: 320px;
+  background-color: $base-background-color;
+  background-image: image-url("sea.jpg");
+  background-position: bottom;
+  min-height: 100vh;
 }
 
 input[type="submit"] {
@@ -10,28 +12,30 @@ input[type="submit"] {
 .hero {
   $large-screen: 50em !default;
   align-items: center;
-  background: image_url("sea.png");
-  background-position: right;
-  background-size: none;
   display: flex;
   justify-content: center;
-  min-height: 25em;
-  padding: 5em 0 8em;
+  padding: 5em 0 3rem;
   position: relative;
-
-  @include media($large-screen) {
-    background-size: cover;
-
-    h1 {
-      font-size: 5em;
-      margin-bottom: 0.1em;
-    }
-  }
 
   h1 {
     font-family: $base-font-family-serif;
     font-size: 2em;
-    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    $border: 2px solid $cream;
+    border-bottom: $border;
+    border-top: $border;
+    font-size: 1.3rem;
+    font-weight: normal;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+  }
+
+  img {
+    max-width: 16rem;
   }
 
   .hero-content {
@@ -42,27 +46,18 @@ input[type="submit"] {
   .hero-logo {
     margin: 0 auto 1em;
   }
-
-  .gradient {
-    @include background(linear-gradient(transparent, $base-background-color));
-    bottom: 0;
-    height: 8em;
-    left: 0;
-    position: absolute;
-    width: 100%;
-  }
 }
 
 .container {
-  margin: auto;
   margin-top: -6em;
+  margin: auto;
   max-width: 30em;
   padding: 1em;
   position: relative;
 }
 
 .box {
-  background: $white;
+  background: $cream;
   border-radius: $base-border-radius * 2;
   color: $base-font-color-on-light;
   padding: 1.8em;
