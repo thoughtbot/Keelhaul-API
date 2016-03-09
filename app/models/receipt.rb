@@ -19,9 +19,24 @@ class Receipt < ActiveRecord::Base
     new_payload = {
       data: payload["data"],
       token: payload["token"],
+      environment: environment_from_payload(payload),
       metadata: payload["receipt"].slice(*APPLE_METADATA_KEY_WHITELIST),
     }
 
     create(new_payload)
   end
+
+  private
+
+  PRODUCTION = "Production".freeze
+  SANDBOX = "ProductionSandbox".freeze
+  private_constant :PRODUCTION, :SANDBOX
+
+  def self.environment_from_payload(payload)
+    case payload["receipt"]["receipt_type"]
+    when PRODUCTION then 0
+    when SANDBOX then 1
+    end
+  end
+  private_class_method :environment_from_payload
 end
