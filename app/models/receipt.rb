@@ -3,8 +3,10 @@ class Receipt < ActiveRecord::Base
     application_version
     bundle_id
     download_id
+    in_app
     original_purchase_date_ms
     receipt_creation_date_ms
+    receipt_type
     request_date_ms
   ).freeze
 
