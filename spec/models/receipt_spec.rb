@@ -8,7 +8,7 @@ describe Receipt do
       user = create(:user)
       payload = JSON.
         parse(fixture_for("receipt-response.json")).
-        merge("data" => "data", "token" => "token")
+        merge("data" => "data", "device_hash" => "device_hash")
 
       receipt = user.receipts.create_from_apple_payload(payload)
 

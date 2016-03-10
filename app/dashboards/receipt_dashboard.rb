@@ -10,7 +10,7 @@ class ReceiptDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
     id: Field::Number,
-    token: Field::String,
+    device_hash: Field::String,
     data: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -26,7 +26,7 @@ class ReceiptDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :user,
     :id,
-    :token,
+    :device_hash,
     :data,
   ]
 
@@ -35,7 +35,7 @@ class ReceiptDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :user,
     :id,
-    :token,
+    :device_hash,
     :data,
     :created_at,
     :updated_at,
@@ -48,7 +48,7 @@ class ReceiptDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :user,
-    :token,
+    :device_hash,
     :data,
     :environment,
     :metadata,

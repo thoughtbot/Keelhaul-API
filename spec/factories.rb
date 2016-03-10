@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :receipt do
     environment "production"
-    token "some-token"
+    device_hash "some-hash"
     user
   end
 

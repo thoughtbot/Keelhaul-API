@@ -21,7 +21,7 @@ describe ReceiptValidator do
             user = stubbed_user
             payload = {
               data: "data",
-              token: "token",
+              device_hash: "device_hash",
             }
             validator = ReceiptValidator.new(payload: payload, user: user)
 
@@ -62,18 +62,18 @@ describe ReceiptValidator do
     end
 
     context "when the receipt has been validated before" do
-      context "when the token matches" do
+      context "when the device hash matches" do
         it "is a success" do
           user = stubbed_user
           receipt = double(
             "Receipt",
-            token: "abc123",
+            device_hash: "abc123",
             environment: "production",
             metadata: {},
           )
           payload = {
             data: "data",
-            token: "abc123",
+            device_hash: "abc123",
           }
           allow(user.receipts).to receive(:find_by).and_return(receipt)
           validator = ReceiptValidator.new(payload: payload, user: user)
@@ -85,17 +85,17 @@ describe ReceiptValidator do
         end
       end
 
-      context "when the token does not match" do
+      context "when the device hash does not match" do
         it "is an unauthenticated request" do
           user = stubbed_user
           receipt = double(
             "Receipt",
-            token: "abc123",
+            device_hash: "abc123",
             environment: "production",
           )
           payload = {
             data: "data",
-            token: "321cba",
+            device_hash: "321cba",
           }
           allow(user.receipts).to receive(:find_by).and_return(receipt)
           validator = ReceiptValidator.new(payload: payload, user: user)

@@ -14,7 +14,7 @@ class ReceiptValidator
       validation.on_success { create_receipt(response.body) }
     elsif mismatching_environment?
       Response::BadRequestError.new
-    elsif token_matches?
+    elsif device_hash_matches?
       Response::SuccessfulRequest.new(matching_receipt.metadata)
     else
       Response::UnauthenticatedError.new
@@ -51,8 +51,8 @@ class ReceiptValidator
     matching_receipt.environment != current_environment
   end
 
-  def token_matches?
-    matching_receipt.token == payload[:token]
+  def device_hash_matches?
+    matching_receipt.device_hash == payload[:device_hash]
   end
 
   def matching_receipt
@@ -61,7 +61,7 @@ class ReceiptValidator
 
   def create_receipt(json)
     user.receipts.create_from_apple_payload(
-      json.merge("data" => payload[:data], "token" => payload[:token]),
+      json.merge("data" => payload[:data], "device_hash" => payload[:device_hash]),
     )
   end
 

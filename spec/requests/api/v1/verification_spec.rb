@@ -15,7 +15,7 @@ describe "Verification of the Apple receipt" do
           {
             receipt: {
               data: "ABC",
-              token: "unknown-token",
+              device_hash: "unknown-hash",
             },
           },
           user.token,
@@ -38,7 +38,7 @@ describe "Verification of the Apple receipt" do
           {
             receipt: {
               data: "ABC",
-              token: "unknown-token",
+              device_hash: "unknown-hash",
             },
           },
           user.token,
@@ -52,7 +52,7 @@ describe "Verification of the Apple receipt" do
         {
           receipt: {
             data: "ABC",
-            token: "unknown-token",
+            device_hash: "unknown-hash",
           },
         },
         user.token,
@@ -68,13 +68,13 @@ describe "Verification of the Apple receipt" do
       receipt = create(
         :receipt,
         user: user,
-        token: "known-token",
+        device_hash: "known-hash",
         data: "ABC",
       )
       payload = {
         receipt: {
           data: receipt.data,
-          token: receipt.token,
+          device_hash: receipt.device_hash,
         },
       }
 
@@ -86,13 +86,13 @@ describe "Verification of the Apple receipt" do
 
   context "valid receipt, known API key, known token for a different receipt" do
     it "is a failure" do
-      receipt = create(:receipt, token: "receipt A")
-      other_receipt = create(:receipt, token: "receipt B")
+      receipt = create(:receipt, device_hash: "receipt A")
+      other_receipt = create(:receipt, device_hash: "receipt B")
       user = receipt.user
       payload = {
         receipt: {
           data: receipt.data,
-          token: other_receipt.token,
+          device_hash: other_receipt.device_hash,
         },
       }
 
@@ -138,7 +138,7 @@ describe "Verification of the Apple receipt" do
       payload = {
         receipt: {
           data: receipt.data,
-          token: receipt.token,
+          device_hash: receipt.device_hash,
         },
       }
 
@@ -157,7 +157,7 @@ describe "Verification of the Apple receipt" do
         {
           receipt: {
             data: "ABC",
-            token: "unknown-token",
+            device_hash: "unknown-hash",
           },
         },
         user.token,

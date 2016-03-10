@@ -20,7 +20,7 @@ class Receipt < ActiveRecord::Base
   def self.create_from_apple_payload(payload)
     new_payload = {
       data: payload["data"],
-      token: payload["token"],
+      device_hash: payload["device_hash"],
       environment: environment_from_payload(payload),
       metadata: payload["receipt"].slice(*APPLE_METADATA_KEY_WHITELIST),
     }
