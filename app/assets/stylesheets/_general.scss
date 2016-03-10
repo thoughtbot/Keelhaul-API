@@ -26,12 +26,13 @@ input[type="submit"] {
     $border: 2px solid $cream;
     border-bottom: $border;
     border-top: $border;
+    color: $cream;
     font-size: 1.3rem;
     font-weight: normal;
     letter-spacing: 1px;
     line-height: 1.5;
     margin-bottom: 0;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0.7rem;
   }
 
   img {
