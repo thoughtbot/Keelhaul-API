@@ -13,11 +13,11 @@ class ReceiptValidator
       validation = Response.for(response.body)
       validation.on_success { create_receipt(response.body) }
     elsif mismatching_environment?
-      Response::BadRequestError.new
-    elsif device_hash_matches?
-      Response::SuccessfulRequest.new(matching_receipt.metadata)
+      Response::BadRequestError.new(mismatching_environment_json)
+    elsif mismatching_device?
+      Response::BadRequestError.new(mismatching_device_json)
     else
-      Response::UnauthenticatedError.new
+      Response::SuccessfulRequest.new(matching_receipt.metadata)
     end
   end
 
@@ -51,8 +51,8 @@ class ReceiptValidator
     matching_receipt.environment != current_environment
   end
 
-  def device_hash_matches?
-    matching_receipt.device_hash == payload[:device_hash]
+  def mismatching_device?
+    matching_receipt.device_hash != payload[:device_hash]
   end
 
   def matching_receipt
@@ -67,5 +67,13 @@ class ReceiptValidator
 
   def current_environment
     AppleReceipt.environment(sandbox: sandbox)
+  end
+
+  def mismatching_environment_json
+    { status: current_environment == :production ? 21_008 : 21_007 }
+  end
+
+  def mismatching_device_json
+    { status: 21_010 }
   end
 end

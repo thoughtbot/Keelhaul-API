@@ -40,8 +40,8 @@ describe ReceiptValidator do
 
             validation = validator.validate
 
-            expect(validation.http_status).to eq 403
-            expect(validation).to be_a Response::UnauthenticatedError
+            expect(validation.http_status).to eq 400
+            expect(validation).to be_a Response::BadRequestError
           end
         end
       end
@@ -102,7 +102,7 @@ describe ReceiptValidator do
 
           validation = validator.validate
 
-          expect(validation).to be_a Response::UnauthenticatedError
+          expect(validation).to be_a Response::BadRequestError
         end
       end
     end

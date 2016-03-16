@@ -5,10 +5,8 @@ module Response
       metadata = json.fetch("receipt").
         slice(*Receipt::APPLE_METADATA_KEY_WHITELIST)
       SuccessfulRequest.new(metadata)
-    when 21_003
-      UnauthenticatedError.new
     else
-      BadRequestError.new
+      BadRequestError.new(json)
     end
   end
 
@@ -31,23 +29,21 @@ module Response
     end
   end
 
-  class UnauthenticatedError
-    def http_status
-      403
-    end
-
-    def on_success
-      self
-    end
-  end
-
   class BadRequestError
+    def initialize(json)
+      @json = json
+    end
+
     def http_status
       400
     end
 
     def on_success
       self
+    end
+
+    def as_json(*)
+      @json
     end
   end
 end

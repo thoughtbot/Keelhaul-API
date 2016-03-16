@@ -16,14 +16,14 @@ describe Response do
       end
     end
 
-    context "given a status of 21003" do
-      it "returns a UnauthenticatedError" do
-        json = { "status" => 21_003 }
+    context "given a status of 21007" do
+      it "returns a BadRequestError" do
+        json = { "status" => 21_007 }
 
         result = Response.for(json)
 
-        expect(result).to be_a Response::UnauthenticatedError
-        expect(result.as_json).to eq({})
+        expect(result).to be_a Response::BadRequestError
+        expect(result.as_json).to eq("status" => 21_007)
       end
     end
 
@@ -34,7 +34,7 @@ describe Response do
         result = Response.for(json)
 
         expect(result).to be_a Response::BadRequestError
-        expect(result.as_json).to eq({})
+        expect(result.as_json).to eq("status" => 42)
       end
     end
   end

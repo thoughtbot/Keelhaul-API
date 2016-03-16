@@ -98,7 +98,7 @@ describe "Verification of the Apple receipt" do
 
       auth_post api_v1_verifications_path, payload, user.token
 
-      expect(response).to be_forbidden
+      expect(response).to be_bad_request
     end
   end
 
@@ -112,7 +112,7 @@ describe "Verification of the Apple receipt" do
 
         auth_post api_v1_verifications_path, payload, user.token
 
-        expect(response).to be_forbidden
+        expect(response).to be_bad_request
       end
     end
   end
