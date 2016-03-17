@@ -74,6 +74,6 @@ class ReceiptValidator
   end
 
   def mismatching_device_json
-    { status: 21_010 }
+    { status: 20_009 }
   end
 end
