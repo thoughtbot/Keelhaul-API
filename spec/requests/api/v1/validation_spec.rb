@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Verification of the Apple receipt" do
+describe "Validation of the Apple receipt" do
   context "valid receipt, known API key, unknown token" do
     it "is a success" do
       with_fake_apple_receipt do
@@ -11,7 +11,7 @@ describe "Verification of the Apple receipt" do
           receipt_data.slice(*Receipt::APPLE_METADATA_KEY_WHITELIST)
 
         auth_post(
-          api_v1_verifications_path,
+          api_v1_validate_path,
           {
             receipt: {
               data: "ABC",
@@ -34,7 +34,7 @@ describe "Verification of the Apple receipt" do
 
       with_fake_apple_receipt do
         auth_post(
-          api_v1_verifications_path,
+          api_v1_validate_path,
           {
             receipt: {
               data: "ABC",
@@ -48,7 +48,7 @@ describe "Verification of the Apple receipt" do
       end
 
       auth_post(
-        api_v1_verifications_path,
+        api_v1_validate_path,
         {
           receipt: {
             data: "ABC",
@@ -78,7 +78,7 @@ describe "Verification of the Apple receipt" do
         },
       }
 
-      auth_post api_v1_verifications_path, payload, user.token
+      auth_post api_v1_validate_path, payload, user.token
 
       expect(response).to be_success
     end
@@ -96,7 +96,7 @@ describe "Verification of the Apple receipt" do
         },
       }
 
-      auth_post api_v1_verifications_path, payload, user.token
+      auth_post api_v1_validate_path, payload, user.token
 
       expect(response).to be_bad_request
     end
@@ -110,7 +110,7 @@ describe "Verification of the Apple receipt" do
           receipt: { data: "" },
         }
 
-        auth_post api_v1_verifications_path, payload, user.token
+        auth_post api_v1_validate_path, payload, user.token
 
         expect(response).to be_bad_request
       end
@@ -120,7 +120,7 @@ describe "Verification of the Apple receipt" do
   context "unknown API key" do
     it "is a failure" do
       with_fake_apple_receipt do
-        auth_post api_v1_verifications_path, receipt: {}
+        auth_post api_v1_validate_path, receipt: {}
 
         expect(response).to be_unauthorized
       end
@@ -142,7 +142,7 @@ describe "Verification of the Apple receipt" do
         },
       }
 
-      auth_post api_v1_verifications_path, payload, user.token
+      auth_post api_v1_validate_path, payload, user.token
 
       expect(response).to be_bad_request
     end
@@ -153,7 +153,7 @@ describe "Verification of the Apple receipt" do
       user = create(:user)
 
       auth_post(
-        api_v1_verifications_path + "?sandbox=1",
+        api_v1_validate_path + "?sandbox=1",
         {
           receipt: {
             data: "ABC",

@@ -1,6 +1,6 @@
 module Api
   module V1
-    class VerificationsController < BaseController
+    class ValidatesController < BaseController
       def create
         render json: validation, status: validation.http_status
       end
